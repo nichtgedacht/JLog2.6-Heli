@@ -169,12 +169,12 @@ end
 -- Draw Battery and percentage display
 local function drawBattery()
 	-- Battery
-		lcd.drawFilledRectangle(148, 48, 24, 7)	-- Top of Battery
-		lcd.drawRectangle(134, 55, 52, 103)
+	lcd.drawFilledRectangle(148, 48, 24, 7)	-- Top of Battery
+	lcd.drawRectangle(134, 55, 52, 103)
 	-- Level of Battery
-		chgY = (158 - (remaining_capacity_percent * 1.02))
-		chgH = (remaining_capacity_percent * 1.02)			
-		lcd.drawFilledRectangle(135, chgY, 50, chgH)
+	chgY = (158 - (remaining_capacity_percent * 1.02))
+	chgH = (remaining_capacity_percent * 1.02)			
+	lcd.drawFilledRectangle(135, chgY, 50, chgH)
 			
 	-- Percentage Display
 	if( remaining_capacity_percent > capacity_alarm_thresh ) then	
