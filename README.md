@@ -2,7 +2,7 @@
 
 Lua script for Jeti DC/DS-16. Utilizes JLog2.6 sensors for helicopters
 
-![alt text](Screen001.bmp "screenshot of telmetry window")
+![screen001](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen001.bmp)
 
 * Runs on DC/DS-16 with FW 4.27
 * Tranlations DE and EN 
