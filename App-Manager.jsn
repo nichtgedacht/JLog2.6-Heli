@@ -1,0 +1,16 @@
+{
+  "GPS to QR-Code": {
+    "author": "nichtgedacht",
+    "version": "V2.0",
+    "previewImg": "https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen001.bmp",
+    "description": "https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/README.md",
+    "sourceFile": [
+      "https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/JLog26.lc",
+      "https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Lang/JLog26.jsn"
+    ],
+    "destinationPath": [
+      "/Apps",
+      "/Apps"
+    ]
+  }
+}
