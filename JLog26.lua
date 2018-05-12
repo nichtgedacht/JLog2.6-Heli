@@ -261,11 +261,11 @@ local function drawRimidbox()	-- Used Capacity
 	
 	-- draw fixed Text
 	lcd.drawText(262 - (lcd.getTextWidth(FONT_MINI,trans.usedCapa) / 2),50,trans.usedCapa,FONT_MINI)
-	lcd.drawText(283, 81, "mAh", FONT_MINI)
-	lcd.drawText(204, 97, trans.capacity, FONT_MINI)
+	lcd.drawText(285, 81, "mAh", FONT_MINI)
+	lcd.drawText(205, 97, trans.capacity, FONT_MINI)
 		
 	-- draw Values
-	lcd.drawText(278 - lcd.getTextWidth(FONT_MAXI, string.format("%.0f",total_used_capacity)),61, string.format("%.0f",
+	lcd.drawText(282 - lcd.getTextWidth(FONT_MAXI, string.format("%.0f",total_used_capacity)),61, string.format("%.0f",
 				total_used_capacity), FONT_MAXI)
 	lcd.drawText(258,97, string.format("%s mAh", capacity),FONT_MINI)
 end
@@ -274,21 +274,21 @@ end
 local function drawRibotbox()	-- Some Max Values
 
 	-- draw fixed Text
-	lcd.drawText(210, 113, "MaxIBEC", FONT_MINI)
-	lcd.drawText(210, 125, "MaxIMot", FONT_MINI)
-	lcd.drawText(210, 137, "MaxPWM", FONT_MINI)
-	lcd.drawText(210, 149, "MaxTemp", FONT_MINI)
+	lcd.drawText(205, 113, "MaxIBEC", FONT_MINI)
+	lcd.drawText(205, 125, "MaxIMot", FONT_MINI)
+	lcd.drawText(205, 137, "MaxPWM", FONT_MINI)
+	lcd.drawText(205, 149, "MaxTFETs", FONT_MINI)
 	
-	lcd.drawText(307,113,"A",FONT_MINI)
-	lcd.drawText(307,125,"A",FONT_MINI)
-	lcd.drawText(307,137,"%",FONT_MINI)
-	lcd.drawText(307,149,"°C",FONT_MINI)
+	lcd.drawText(302,113,"A",FONT_MINI)
+	lcd.drawText(302,125,"A",FONT_MINI)
+	lcd.drawText(302,137,"%",FONT_MINI)
+	lcd.drawText(302,149,"°C",FONT_MINI)
 	
 	-- draw Max Values  
-	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxrxa)),113, string.format("%.1f",maxrxa),FONT_MINI)
-	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxcur)),125, string.format("%.1f",maxcur),FONT_MINI)
-	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.0f",maxpwm)),137, string.format("%.0f",maxpwm),FONT_MINI)
-	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.0f",maxtmp)),149, string.format("%.0f",maxtmp),FONT_MINI)
+	lcd.drawText(295 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxrxa)),113, string.format("%.1f",maxrxa),FONT_MINI)
+	lcd.drawText(295 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxcur)),125, string.format("%.1f",maxcur),FONT_MINI)
+	lcd.drawText(295 - lcd.getTextWidth(FONT_MINI, string.format("%.0f",maxpwm)),137, string.format("%.0f",maxpwm),FONT_MINI)
+	lcd.drawText(295 - lcd.getTextWidth(FONT_MINI, string.format("%.0f",maxtmp)),149, string.format("%.0f",maxtmp),FONT_MINI)
 end
 
 --[[
