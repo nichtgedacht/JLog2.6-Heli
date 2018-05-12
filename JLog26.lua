@@ -25,8 +25,8 @@
     IN KEINEM FALL SIND DIE AUTOREN ODER COPYRIGHTINHABER FÜR JEGLICHEN SCHADEN ODER
     SONSTIGE ANSPRÜCHE HAFTBAR ZU MACHEN, OB INFOLGE DER ERFÜLLUNG EINES VERTRAGES,
     EINES DELIKTES ODER ANDERS IM ZUSAMMENHANG MIT DER SOFTWARE ODER SONSTIGER
-    VERWENDUNG DER SOFTWARE ENTSTANDEN. 
-        ----------------------------------------------------------------------------
+    VERWENDUNG DER SOFTWARE ENTSTANDEN.
+   ----------------------------------------------------------------------------
 
    Tero Salminen History (reverse order): 
    
@@ -89,7 +89,7 @@ or Configuration 1 (selected config) setup by JLC5 (Min/Max-Werte):
 
 
 collectgarbage()
---------------------------------------------------------------------------------
+
 local initial_voltage_measured = false
 local initial_capacity_percent_used = 0
 local initial_cell_voltage, cell_count
@@ -155,7 +155,7 @@ local percentList	=	{{3,0},{3.093,1},{3.196,2},{3.301,3},{3.401,4},{3.477,5},{3.
 {4.200, 100}    
 --]]    
                    
---------------------------------------------------------------------------------
+
 -- Read translations
 local function setLanguage()
 	local lng=system.getLocale()
@@ -165,7 +165,7 @@ local function setLanguage()
 		trans = obj[lng] or obj[obj.default]
 	end
 end
---------------------------------------------------------------------------------
+
 -- Draw Battery and percentage display
 local function drawBattery()
 	-- Battery
@@ -193,7 +193,7 @@ local function drawBattery()
 		
     collectgarbage()
 end
---------------------------------------------------------------------------------
+
 -- Draw left top box
 local function drawLetopbox()    -- Flightpack Voltage
 	-- draw fixed Text
@@ -206,7 +206,7 @@ local function drawLetopbox()    -- Flightpack Voltage
 	battery_voltage_average), FONT_BIG)
 	lcd.drawText(60, 32, string.format("%.1f - %.1f", minvtg, maxvtg), FONT_MINI)
 end
---------------------------------------------------------------------------------
+
 -- Draw left middle box
 local function drawLemidbox()	-- Rotor Speed
 	-- draw fixed Text
@@ -218,7 +218,7 @@ local function drawLemidbox()	-- Rotor Speed
 	lcd.drawText(80 - lcd.getTextWidth(FONT_MAXI,string.format("%.0f",rotor_rpm)),61,string.format("%.0f",rotor_rpm),FONT_MAXI)
        lcd.drawText(60,97, string.format("%.0f - %.0f", minrpm, maxrpm), FONT_MINI)
 end
---------------------------------------------------------------------------------
+
 -- Draw left bottom box
 local function drawLebotbox()	-- BEC Voltage
 	-- draw fixed Text
@@ -241,7 +241,7 @@ local function drawLebotbox()	-- BEC Voltage
 	--lcd.drawText(120 - lcd.getTextWidth(FONT_MINI, string.format("%.0f %%",rx_percent)),148, string.format("%.0f %%",rx_percent),FONT_MINI)
 	lcd.drawText(60 - lcd.getTextWidth(FONT_MINI, string.format("%.2fV",rx_voltage)),148, string.format("%.2fV",rx_voltage),FONT_MINI) 
 end
---------------------------------------------------------------------------------
+
 -- Draw right top box
 local function drawRitopbox()	-- Flight Time
 	-- draw fixed Text
@@ -253,7 +253,7 @@ local function drawRitopbox()	-- Flight Time
 						std, min, sec), FONT_BIG)
 	lcd.drawText(255, 32, string.format("%02d.%02d.%02d", today.day, today.mon, today.year), FONT_MINI)
 end
---------------------------------------------------------------------------------
+
 -- Draw right middle box
 local function drawRimidbox()	-- Used Capacity
     
@@ -269,8 +269,29 @@ local function drawRimidbox()	-- Used Capacity
 				total_used_capacity), FONT_MAXI)
 	lcd.drawText(258,97, string.format("%s mAh", capacity),FONT_MINI)
 end
---------------------------------------------------------------------------------
+
 -- Draw right bottom box
+local function drawRibotbox()	-- Some Max Values
+
+	-- draw fixed Text
+	lcd.drawText(210, 113, "MaxIBEC", FONT_MINI)
+	lcd.drawText(210, 125, "MaxIMot", FONT_MINI)
+	lcd.drawText(210, 137, "MaxPWM", FONT_MINI)
+	lcd.drawText(210, 149, "MaxTemp", FONT_MINI)
+	
+	lcd.drawText(307,113,"A",FONT_MINI)
+	lcd.drawText(307,125,"A",FONT_MINI)
+	lcd.drawText(307,137,"%",FONT_MINI)
+	lcd.drawText(307,149,"°C",FONT_MINI)
+	
+	-- draw Max Values  
+	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxrxa)),113, string.format("%.1f",maxrxa),FONT_MINI)
+	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxcur)),125, string.format("%.1f",maxcur),FONT_MINI)
+	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.0f",maxpwm)),137, string.format("%.0f",maxpwm),FONT_MINI)
+	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.0f",maxtmp)),149, string.format("%.0f",maxtmp),FONT_MINI)
+end
+
+--[[
 local function drawRibotbox()	-- Some Max Values
 
 	-- draw fixed Text
@@ -305,8 +326,8 @@ local function drawRibotbox()	-- Some Max Values
 	
 	lcd.drawText(200,149,"TelMax:",FONT_MINI)
 end
+--]]   
 
---------------------------------------------------------------------------------
 -- Telemetriefenster Page1
 local function Page1(width, height)
 
@@ -325,7 +346,6 @@ local function Page1(width, height)
 	lcd.drawFilledRectangle(200, 111, 116, 2)  --ru
 	lcd.drawFilledRectangle(4, 142, 116, 2)
 end
---------------------------------------------------------------------------------
 
 local function capacityChanged(value)
 	capacity = value
@@ -378,7 +398,7 @@ local function voltage_alarm_voiceChanged(value)
 	system.pSave("voltage_alarm_voice", voltage_alarm_voice)
 end
 
---------------------------------------------------------------------------------
+
 local function setupForm(formID)
     
 	local available = system.getSensors()
@@ -461,7 +481,7 @@ local function setupForm(formID)
     
 	collectgarbage()
 end
---------------------------------------------------------------------------------
+
 -- Fligt time
 local function FlightTime()
 	newTime = system.getTimeCounter()
