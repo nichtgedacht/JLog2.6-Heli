@@ -7,7 +7,6 @@ Lua script for Jeti DC/DS-16. Utilizes JLog2.6 sensors for helicopters
 ![screen002](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen002.bmp)
 ![screen003](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen003.bmp)
 ![screen004](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen004.bmp)
-![screen005](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen005.bmp)
 
 * Runs on DC/DS-16 with FW 4.27
 * Tranlations DE and EN 
