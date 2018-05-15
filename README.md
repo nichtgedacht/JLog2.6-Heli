@@ -2,7 +2,12 @@
 
 Lua script for Jeti DC/DS-16. Utilizes JLog2.6 sensors for helicopters
 
+![screen000](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen000.bmp)
 ![screen001](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen001.bmp)
+![screen002](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen002.bmp)
+![screen003](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen003.bmp)
+![screen004](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen004.bmp)
+![screen005](https://raw.githubusercontent.com/nichtgedacht/JLog2.6-Heli/master/Screen005.bmp)
 
 * Runs on DC/DS-16 with FW 4.27
 * Tranlations DE and EN 
@@ -20,3 +25,4 @@ Lua script for Jeti DC/DS-16. Utilizes JLog2.6 sensors for helicopters
 * Adjustable percent capacity alarm theshold
 * Calculates average of voltage of main battery
 * Calculates initial charge condition
+* Displays Gyro values for Mini-Vstabi

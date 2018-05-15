@@ -25,8 +25,8 @@
     IN KEINEM FALL SIND DIE AUTOREN ODER COPYRIGHTINHABER FÜR JEGLICHEN SCHADEN ODER
     SONSTIGE ANSPRÜCHE HAFTBAR ZU MACHEN, OB INFOLGE DER ERFÜLLUNG EINES VERTRAGES,
     EINES DELIKTES ODER ANDERS IM ZUSAMMENHANG MIT DER SOFTWARE ODER SONSTIGER
-    VERWENDUNG DER SOFTWARE ENTSTANDEN.
-   ----------------------------------------------------------------------------
+    VERWENDUNG DER SOFTWARE ENTSTANDEN. 
+        ----------------------------------------------------------------------------
 
    Tero Salminen History (reverse order): 
    
@@ -51,6 +51,7 @@
    
    nichtgedacht Version History:
    V2.0 initial release
+   V2.1 display max values better reading. Added display for Gyro setting
     
 --]]
 
@@ -89,7 +90,7 @@ or Configuration 1 (selected config) setup by JLC5 (Min/Max-Werte):
 
 
 collectgarbage()
-
+--------------------------------------------------------------------------------
 local initial_voltage_measured = false
 local initial_capacity_percent_used = 0
 local initial_cell_voltage, cell_count
@@ -114,6 +115,11 @@ local voltages_list = {}
 --local rx_percent = 0 -- signal quality not used
 local rx_a1, rx_a2 = 0, 0
 --local volume_playback, volume
+local gyro_output, gyChannel
+local gyro_channel = 0
+local output_list = { "O1", "O2", "O3", "O4", "O5", "O6", "O7", "O8", "O9", "O10", "O11", "O12",
+		              "O13", "O14", "O15", "O16", "O17", "O18", "O19", "O20", "O21", "O22", "O23", "O24" }
+
 
 -- maps cell voltages to remainig capacity
 local percentList	=	{{3,0},{3.093,1},{3.196,2},{3.301,3},{3.401,4},{3.477,5},{3.544,6},{3.601,7},{3.637,8},{3.664,9},
@@ -155,7 +161,7 @@ local percentList	=	{{3,0},{3.093,1},{3.196,2},{3.301,3},{3.401,4},{3.477,5},{3.
 {4.200, 100}    
 --]]    
                    
-
+--------------------------------------------------------------------------------
 -- Read translations
 local function setLanguage()
 	local lng=system.getLocale()
@@ -165,15 +171,17 @@ local function setLanguage()
 		trans = obj[lng] or obj[obj.default]
 	end
 end
-
+--------------------------------------------------------------------------------
 -- Draw Battery and percentage display
 local function drawBattery()
+	
 	-- Battery
 	lcd.drawFilledRectangle(148, 48, 24, 7)	-- Top of Battery
-	lcd.drawRectangle(134, 55, 52, 103)
+	lcd.drawRectangle(134, 55, 52, 80)
 	-- Level of Battery
-	chgY = (158 - (remaining_capacity_percent * 1.02))
-	chgH = (remaining_capacity_percent * 1.02)			
+	chgY = (135 - (remaining_capacity_percent * 0.8))
+	chgH = (remaining_capacity_percent * 0.8)
+	
 	lcd.drawFilledRectangle(135, chgY, 50, chgH)
 			
 	-- Percentage Display
@@ -191,9 +199,9 @@ local function drawBattery()
 		end
 	end
 		
-    collectgarbage()
+	collectgarbage()
 end
-
+--------------------------------------------------------------------------------
 -- Draw left top box
 local function drawLetopbox()    -- Flightpack Voltage
 	-- draw fixed Text
@@ -206,7 +214,7 @@ local function drawLetopbox()    -- Flightpack Voltage
 	battery_voltage_average), FONT_BIG)
 	lcd.drawText(60, 32, string.format("%.1f - %.1f", minvtg, maxvtg), FONT_MINI)
 end
-
+--------------------------------------------------------------------------------
 -- Draw left middle box
 local function drawLemidbox()	-- Rotor Speed
 	-- draw fixed Text
@@ -218,7 +226,7 @@ local function drawLemidbox()	-- Rotor Speed
 	lcd.drawText(80 - lcd.getTextWidth(FONT_MAXI,string.format("%.0f",rotor_rpm)),61,string.format("%.0f",rotor_rpm),FONT_MAXI)
        lcd.drawText(60,97, string.format("%.0f - %.0f", minrpm, maxrpm), FONT_MINI)
 end
-
+--------------------------------------------------------------------------------
 -- Draw left bottom box
 local function drawLebotbox()	-- BEC Voltage
 	-- draw fixed Text
@@ -241,7 +249,7 @@ local function drawLebotbox()	-- BEC Voltage
 	--lcd.drawText(120 - lcd.getTextWidth(FONT_MINI, string.format("%.0f %%",rx_percent)),148, string.format("%.0f %%",rx_percent),FONT_MINI)
 	lcd.drawText(60 - lcd.getTextWidth(FONT_MINI, string.format("%.2fV",rx_voltage)),148, string.format("%.2fV",rx_voltage),FONT_MINI) 
 end
-
+--------------------------------------------------------------------------------
 -- Draw right top box
 local function drawRitopbox()	-- Flight Time
 	-- draw fixed Text
@@ -253,7 +261,7 @@ local function drawRitopbox()	-- Flight Time
 						std, min, sec), FONT_BIG)
 	lcd.drawText(255, 32, string.format("%02d.%02d.%02d", today.day, today.mon, today.year), FONT_MINI)
 end
-
+--------------------------------------------------------------------------------
 -- Draw right middle box
 local function drawRimidbox()	-- Used Capacity
     
@@ -269,7 +277,7 @@ local function drawRimidbox()	-- Used Capacity
 				total_used_capacity), FONT_MAXI)
 	lcd.drawText(258,97, string.format("%s mAh", capacity),FONT_MINI)
 end
-
+--------------------------------------------------------------------------------
 -- Draw right bottom box
 local function drawRibotbox()	-- Some Max Values
 
@@ -291,43 +299,21 @@ local function drawRibotbox()	-- Some Max Values
 	lcd.drawText(295 - lcd.getTextWidth(FONT_MINI, string.format("%.0f",maxtmp)),149, string.format("%.0f",maxtmp),FONT_MINI)
 end
 
---[[
-local function drawRibotbox()	-- Some Max Values
-
+local function drawMibotbox()
+	
+	local gyro_percent = (gyro_channel * 100 + 39) * 0.6060 + 40
+	
+	if (gyro_percent < 40) then gyro_percent = 40 end
+	if (gyro_percent > 120) then gyro_percent = 120 end
+	
 	-- draw fixed Text
-	lcd.drawText(245, 113, "IBEC", FONT_MINI)
-	lcd.drawText(245, 125, "IMot", FONT_MINI)
-	lcd.drawText(245, 137, "PWM", FONT_MINI)
-	lcd.drawText(245, 149, "ESC", FONT_MINI)
-	
-	lcd.drawText(307,113,"A",FONT_MINI)
-	lcd.drawText(307,125,"A",FONT_MINI)
-	lcd.drawText(307,137,"%",FONT_MINI)
-	lcd.drawText(307,149,"°C",FONT_MINI)
-	
-	-- draw Max Values  
-	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxrxa)),113, string.format("%.1f",maxrxa),FONT_MINI)
-	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxcur)),125, string.format("%.1f",maxcur),FONT_MINI)
-	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxpwm)),137, string.format("%.1f",maxpwm),FONT_MINI)
-	lcd.drawText(300 - lcd.getTextWidth(FONT_MINI, string.format("%.1f",maxtmp)),149, string.format("%.1f",maxtmp),FONT_MINI)
-	
-	-- draw "graph"
-	lcd.drawLine(200, 140, 200, 120)
-	lcd.drawLine(200, 140, 240, 140)
-	lcd.drawLine(199, 121, 201, 121)
-	lcd.drawLine(239, 139, 239, 141)
-	lcd.drawLine(200 ,140, 217, 126)
-	lcd.drawLine(200 ,139, 217, 125)
-	lcd.drawLine(217, 126, 226, 138)
-	lcd.drawLine(217 ,125, 226, 137)
-	lcd.drawLine(226, 138, 240, 119)
-	lcd.drawLine(226, 137, 240, 118)
-	lcd.drawLine(223, 138, 223, 142)
-	
-	lcd.drawText(200,149,"TelMax:",FONT_MINI)
-end
---]]   
+	lcd.drawText(136,145,"GY",FONT_MINI)
+	-- draw Max Values
+	lcd.drawText(184 - lcd.getTextWidth(FONT_BIG, string.format("%.0f", gyro_percent)), 138, string.format("%.0f",
+				 gyro_percent), FONT_BIG)
+end	
 
+--------------------------------------------------------------------------------
 -- Telemetriefenster Page1
 local function Page1(width, height)
 
@@ -338,6 +324,7 @@ local function Page1(width, height)
 	drawRitopbox()
 	drawRimidbox()
 	drawRibotbox()
+	drawMibotbox()
 	
 	-- draw horizontal lines
 	lcd.drawFilledRectangle(4, 47, 104, 2)     --lo
@@ -346,6 +333,7 @@ local function Page1(width, height)
 	lcd.drawFilledRectangle(200, 111, 116, 2)  --ru
 	lcd.drawFilledRectangle(4, 142, 116, 2)
 end
+--------------------------------------------------------------------------------
 
 local function capacityChanged(value)
 	capacity = value
@@ -398,7 +386,14 @@ local function voltage_alarm_voiceChanged(value)
 	system.pSave("voltage_alarm_voice", voltage_alarm_voice)
 end
 
+local function gyChChanged(value)
+	gyChannel = value
+	gyro_output = output_list[gyChannel]
+	
+	system.pSave("gyChannel", gyChannel)
+end
 
+--------------------------------------------------------------------------------
 local function setupForm(formID)
     
 	local available = system.getSensors()
@@ -474,14 +469,23 @@ local function setupForm(formID)
 	form.addLabel({label=trans.resSw, width=210})
 	form.addInputbox(resSw,true,resSwChanged)
 	
-	form.addSpacer(318,7)		
+	form.addSpacer(318,7)
+	
+	form.addRow(1)
+	form.addLabel({label=trans.label5,font=FONT_BOLD})
+	
+	form.addRow(2)
+	form.addLabel({label=trans.channel, width=210})
+	form.addIntbox(gyChannel,1,16,6,0,1,gyChChanged)
+	
+	form.addSpacer(318,7)
 
 	form.addRow(1)
-	form.addLabel({label="JLog26 " .. Version .. " ", font=FONT_MINI, alignRight=true})
+	form.addLabel({label="JLog2.6-Heli " .. Version .. " ", font=FONT_MINI, alignRight=true})
     
 	collectgarbage()
 end
-
+--------------------------------------------------------------------------------
 -- Fligt time
 local function FlightTime()
 	newTime = system.getTimeCounter()
@@ -502,6 +506,8 @@ local function FlightTime()
 	std = math.floor(time / 3600)
 	min = math.floor(time / 60) - std * 60
 	sec = time - min * 60
+	
+	collectgarbage()
 end
     
 -- Count percentage from cell voltage
@@ -549,7 +555,7 @@ function average(value) -- smaller averaging implementation bcs just used for av
 	local voltage
 	local i
 	
-	if ( #voltages_list == 10 ) then
+	if ( #voltages_list == 5 ) then
 		table.remove(voltages_list, 1)
 	end    
 	
@@ -569,10 +575,12 @@ local function loop()
 	local anVoltGo = system.getInputsVal(anVoltSw)
 	local tTime = system.getTime()
 
-	FlightTime()
-	
 	--print(collectgarbage("count"))
 	
+	FlightTime()
+	
+	gyro_channel = system.getInputs(gyro_output)
+		
 	txtelemetry = system.getTxTelemetry()
 	rx_voltage = txtelemetry.rx1Voltage
 	-- rx_percent = txtelemetry.rx1Percent   -- signal quality not used
@@ -747,6 +755,8 @@ local function init(code1)
 	resSw = pLoad("resSw")
 	anCapaSw = pLoad("anCapaSw")
 	anVoltSw = pLoad("anVoltSw")
+	gyChannel = pLoad("gyChannel", 1)
+	gyro_output = output_list[gyChannel]
 	--average = moving_average(5)
 	registerForm(1, MENU_APPS, trans.appName, setupForm)
 	-- registerTelemetry(1, trans.appName, 4, Page1) --registers a full size Window
@@ -754,7 +764,7 @@ local function init(code1)
 	collectgarbage()
 end
 --------------------------------------------------------------------------------
-Version = "2.0"
+Version = "2.1"
 setLanguage()
 collectgarbage()
 return {init=init, loop=loop, author="Tero Salminen, A. Fromm, Rene S., D. Brueggemann", version=Version, name=trans.appName}
