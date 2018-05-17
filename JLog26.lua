@@ -301,7 +301,20 @@ end
 
 local function drawMibotbox()
 	
-	local gyro_percent = (gyro_channel * 100 + 39) * 0.6060 + 40
+	--[[
+	Gyro Gain    
+	Mini-Vstabi range is: +40 ... +120
+	this range correponds to a
+	Gyro Channel Value (times 100) range: -39 ... +93
+	Scale and offset
+	- renorm to zero ( gyro_channel * 100 + 39 )
+	- scale ( 120 - 40 ) / ( 93 + 39 ) = 0.60606060...
+	- offset +40
+	- gyro_percent = (gyro_channel * 100 + 39) * 0.6060 + 40
+	- gyro_percent = gyro_channel * 60.606 + 63.6363   
+	--]]
+	
+	local gyro_percent = gyro_channel * 60.606 + 63.6363
 	
 	if (gyro_percent < 40) then gyro_percent = 40 end
 	if (gyro_percent > 120) then gyro_percent = 120 end
