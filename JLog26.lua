@@ -428,11 +428,11 @@ local function setupForm(formID)
 	form.addLabel({label=trans.label1,font=FONT_BOLD})
 	
 	form.addRow(2)
-	form.addLabel({label=trans.anCapaSw, width=210})
+	form.addLabel({label=trans.anCapaSw, width=220})
 	form.addInputbox(anCapaSw,true,anCapaSwChanged)
 
 	form.addRow(2)
-	form.addLabel({label=trans.anVoltSw, width=210})
+	form.addLabel({label=trans.anVoltSw, width=220})
 	form.addInputbox(anVoltSw,true,anVoltSwChanged)
         
 	form.addSpacer(318,7)
@@ -441,11 +441,11 @@ local function setupForm(formID)
 	form.addLabel({label=trans.label3,font=FONT_BOLD})
 
 	form.addRow(2)
-	form.addLabel({label=trans.voltAlarmVoice, width=210})
+	form.addLabel({label=trans.voltAlarmVoice, width=160})
 	form.addAudioFilebox(voltage_alarm_voice,voltage_alarm_voiceChanged)
         
 	form.addRow(2)
-	form.addLabel({label=trans.capaAlarmVoice, width=210})
+	form.addLabel({label=trans.capaAlarmVoice, width=160})
 	form.addAudioFilebox(capacity_alarm_voice, capacity_alarm_voiceChanged)
 	
 	form.addSpacer(318,7)

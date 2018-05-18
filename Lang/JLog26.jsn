@@ -20,7 +20,7 @@
 		"usedCapa":"Used",
 		"resSw":"Reset Switch",
 		"anCapaSw":"Switch Percent Announcement",
-		"anVoltSW":"Switch Voltage Announcement",
+		"anVoltSw":"Switch Voltage Announcement",
 		"capacity":"Capacity",
 		"cellcnt":"Cell Count",
 		"voltAlarmThresh":"Batterie Alarm at (V Voltage)",
