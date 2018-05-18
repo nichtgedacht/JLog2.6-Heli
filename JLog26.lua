@@ -441,11 +441,11 @@ local function setupForm(formID)
 	form.addLabel({label=trans.label3,font=FONT_BOLD})
 
 	form.addRow(2)
-	form.addLabel({label=trans.voltAlarmVoice, width=160})
+	form.addLabel({label=trans.voltAlarmVoice, width=150})
 	form.addAudioFilebox(voltage_alarm_voice,voltage_alarm_voiceChanged)
         
 	form.addRow(2)
-	form.addLabel({label=trans.capaAlarmVoice, width=160})
+	form.addLabel({label=trans.capaAlarmVoice, width=150})
 	form.addAudioFilebox(capacity_alarm_voice, capacity_alarm_voiceChanged)
 	
 	form.addSpacer(318,7)
