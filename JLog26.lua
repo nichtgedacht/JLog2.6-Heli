@@ -239,13 +239,15 @@ local function drawLebotbox()	-- BEC Voltage
         
 	-- separator
 	lcd.drawFilledRectangle(4, 142, 116, 2)
-        
+	
 	-- draw fixed Text
 	lcd.drawText(6, 148, "URx", FONT_MINI)
 	lcd.drawText(70, 148, "A", FONT_MINI)
 	
 	-- draw RX Values
-	lcd.drawText(118 - lcd.getTextWidth(FONT_MINI, string.format("%d   %d",rx_a1, rx_a2)),148, string.format("%d   %d",rx_a1, rx_a2),FONT_MINI)
+	lcd.drawText(98 - lcd.getTextWidth(FONT_MINI, string.format("%d",rx_a1)),148, string.format("%d",rx_a1),FONT_MINI)
+	lcd.drawText(118 - lcd.getTextWidth(FONT_MINI, string.format("%d",rx_a2)),148, string.format("%d",rx_a2),FONT_MINI)
+	
 	--lcd.drawText(120 - lcd.getTextWidth(FONT_MINI, string.format("%.0f %%",rx_percent)),148, string.format("%.0f %%",rx_percent),FONT_MINI)
 	lcd.drawText(60 - lcd.getTextWidth(FONT_MINI, string.format("%.2fV",rx_voltage)),148, string.format("%.2fV",rx_voltage),FONT_MINI) 
 end
@@ -441,11 +443,11 @@ local function setupForm(formID)
 	form.addLabel({label=trans.label3,font=FONT_BOLD})
 
 	form.addRow(2)
-	form.addLabel({label=trans.voltAlarmVoice, width=150})
+	form.addLabel({label=trans.voltAlarmVoice, width=140})
 	form.addAudioFilebox(voltage_alarm_voice,voltage_alarm_voiceChanged)
         
 	form.addRow(2)
-	form.addLabel({label=trans.capaAlarmVoice, width=150})
+	form.addLabel({label=trans.capaAlarmVoice, width=140})
 	form.addAudioFilebox(capacity_alarm_voice, capacity_alarm_voiceChanged)
 	
 	form.addSpacer(318,7)
@@ -455,19 +457,19 @@ local function setupForm(formID)
 	
 	form.addRow(2)
 	form.addLabel({label=trans.capacitymAh, width=210})
-	form.addIntbox(capacity, 0, 32767, 0, 0, 10, capacityChanged)
+	form.addIntbox(capacity, 0, 32767, 0, 0, 10, capacityChanged, {label=" mAh"})
 	
 	form.addRow(2)
 	form.addLabel({label=trans.cellcnt, width=210})
-	form.addIntbox(cell_count, 1, 12, 1, 0, 1, cell_countChanged)
+	form.addIntbox(cell_count, 1, 12, 1, 0, 1, cell_countChanged, {label=" S"})
 	
 	form.addRow(2)
-	form.addLabel({label=trans.capaAlarmThresh, width=210})
-	form.addIntbox(capacity_alarm_thresh, 0, 100, 0, 0, 1, capacity_alarm_threshChanged)
+	form.addLabel({label=trans.capaAlarmThresh, width=210 })
+	form.addIntbox(capacity_alarm_thresh, 0, 100, 0, 0, 1, capacity_alarm_threshChanged, {label=" %"})
     
 	form.addRow(2)
 	form.addLabel({label=trans.voltAlarmThresh, width=210})
-	form.addIntbox(voltage_alarm_thresh,0,1000,0,1,1,voltage_alarm_threshChanged)
+	form.addIntbox(voltage_alarm_thresh,0,1000,0,1,1,voltage_alarm_threshChanged, {label=" V"})
 	
 	form.addSpacer(318,7)
 	
@@ -777,7 +779,7 @@ local function init(code1)
 	collectgarbage()
 end
 --------------------------------------------------------------------------------
-Version = "2.1"
+Version = "2.2"
 setLanguage()
 collectgarbage()
 return {init=init, loop=loop, author="Tero Salminen, A. Fromm, Rene S., D. Brueggemann", version=Version, name=trans.appName}
